@@ -1,11 +1,11 @@
 #!/bin/sh
 
-DATABASE='user_data.kdb'
 PASS=$1
-time=4
+TIME=$2
+DATABASE=$3
 function_check_user(){
   expect <<- DONE
-     set timeout $time
+     set timeout $TIME
      spawn kpcli
      match_max 100000000
      expect  "kpcli:/>"
