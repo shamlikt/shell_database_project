@@ -1,4 +1,4 @@
-#!/bin/sh 
+#!/bin/sh
 
 DATABASE='user_data.kdb'
 PASSWORD='testtest'
@@ -44,16 +44,19 @@ function_add_category() {
      expect  "N]"
      send    "y\n"
      expect  "kpcli:/Category>"
-     DONE
- }
+DONE
+    }
 #function_validate_user
 #echo $?
 
 # function_add_category shoo 10
 # echo foo
 
-function_get_all_category(){
+
+function_get_category_id_from_name(){
     local category_name=$1
+    local temp_file='.temp'
+    name=$1
     output=$(
      expect <<- DONE
      set timeout $time
@@ -68,9 +71,46 @@ function_get_all_category(){
      expect  "*Category>"
      send    "ls\n"
      expect  "/Category>"
-      puts  $expect_out(buffer)
-     DONE
-     )
-     echo $output
+     puts [open $temp_file w] \$expect_out(buffer)
+DONE
+          )
+    grep '\.' $temp_file > .temp_ && mv -f .temp_ $temp_file
+    id=$(grep $name $temp_file | cut -d '=' -f 2)
+    rm -f $temp_file
 }
 
+
+
+function_get_all_category(){
+    local category_name=$1
+    local temp_file='.temp'
+    output=$(
+     expect <<- DONE
+     set timeout $time
+     spawn kpcli
+     match_max 100000000
+     expect  "kpcli:/>"
+     send    "open $DATABASE\n"
+     expect  "*Please provide the master password:*"
+     send    "$PASSWORD\n"
+     expect  "kpcli:/>"
+     send    "cd Category\n"
+     expect  "*Category>"
+     send    "ls\n"
+     expect  "/Category>"
+     puts [open $temp_file w] \$expect_out(buffer)
+DONE
+          )
+    grep '\.' $temp_file > .temp_ && mv -f .temp_ $temp_file
+    
+    cat $temp_file | while  read line;do
+    echo $line | cut -d ' ' -f 2
+    done
+    rm -f $temp_file
+}
+
+
+
+
+echo function_get_category_id_from_name 'shoo'
+echo $id
