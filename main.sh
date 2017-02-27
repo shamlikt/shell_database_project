@@ -172,6 +172,7 @@ function_add_customer(){
     echo $customer_id
     echo $customer_phone
     echo $category_id
+    function_remove_lock_file
     expect <<- DONE
      set timeout $time
      spawn kpcli
@@ -229,11 +230,11 @@ function_dashboard(){
     
     case $value in
          1)
-             function_add_category
+             function_add_category > /dev/null
              function_dashboard
              ;;
          2)
-             function_add_customer
+             function_add_customer > /dev/null
              function_dashboard
              ;;
      esac
