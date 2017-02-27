@@ -4,8 +4,8 @@
   - dialog used for minimal UI
 * Installation
   - Please enter commands step by steps
-  - =git clone https://github.com/shamlikt/shell_database_project=
-  - =cd shell_database_project=
-  - =sudo make install=
+  - git clone https://github.com/shamlikt/shell_database_project
+  - cd shell_database_project
+  - sudo make install
 * run
-  - =make run=
+  - make run
