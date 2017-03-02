@@ -9,3 +9,4 @@
   - sudo make install
 * run
   - make run
+  - password is `testtest`
