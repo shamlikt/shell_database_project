@@ -1,5 +1,5 @@
 
-insall:
+install:
 	sudo apt-get install kpcli expect dialog -y
 
 run:
